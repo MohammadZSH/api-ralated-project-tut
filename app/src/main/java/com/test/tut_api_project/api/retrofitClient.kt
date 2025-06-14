@@ -1,6 +1,5 @@
-package com.test.tut_api_project
+package com.test.tut_api_project.api
 
-import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

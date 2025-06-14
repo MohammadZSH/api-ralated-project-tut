@@ -1,4 +1,4 @@
-package com.test.tut_api_project
+package com.test.tut_api_project.api
 
 import com.test.tut_api_project.models.recipesResponse
 import retrofit2.Call

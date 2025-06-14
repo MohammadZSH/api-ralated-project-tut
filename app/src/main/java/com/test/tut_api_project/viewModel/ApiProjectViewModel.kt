@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.test.tut_api_project.models.recipe
 import com.test.tut_api_project.models.recipesResponse
-import com.test.tut_api_project.retrofitClient
+import com.test.tut_api_project.api.retrofitClient
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import retrofit2.Call
