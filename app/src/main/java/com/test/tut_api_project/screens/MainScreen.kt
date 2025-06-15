@@ -1,5 +1,6 @@
 package com.test.tut_api_project.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -22,12 +23,15 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
+import com.test.tut_api_project.R
 import com.test.tut_api_project.ui.theme.ColorOfAPiApp
 import com.test.tut_api_project.viewModel.ApiProjectViewModel
 
@@ -38,10 +42,13 @@ fun MainScreen(
     navController: NavHostController
 ) {
     val listOfRecipes = viewModel.listOfRecipes.collectAsState()
+    val listStateOfMainScreen = viewModel.listStateOfMainScreen
     LazyColumn(
-        Modifier
-            .padding(innerPadding)
-            .fillMaxSize()
+        state = listStateOfMainScreen,
+        modifier =
+            Modifier
+                .padding(innerPadding)
+                .fillMaxSize()
     ) {
         items(listOfRecipes.value.size) { index ->
             Card(
@@ -49,6 +56,7 @@ fun MainScreen(
                     .fillMaxWidth()
                     .padding(20.dp)
                     .clickable(onClick = {
+                        viewModel.isBackButtonClickedSetter(false)
                         navController.navigate("item_details_screen/$index")
                     }),
 //                colors = CardDefaults.cardColors(containerColor = ColorOfAPiApp.CardImageColor),
@@ -67,7 +75,32 @@ fun MainScreen(
                     contentAlignment = Alignment.BottomCenter
                 ) {
                     val blurHeight = 100.dp
-                    AsyncImage(
+//                    AsyncImage(
+//                        modifier = Modifier
+//                            .fillMaxSize()
+//                            .drawWithContent {
+//                                drawContent()
+//                                // Draw gradient overlay to fade to blur
+//                                drawRect(
+//                                    brush = Brush.verticalGradient(
+//                                        colors = listOf(
+//                                            Color.Transparent,
+//                                            ColorOfAPiApp.BlurredShapeColor
+//                                        ),
+//                                        startY = size.height - blurHeight.toPx() * 2,
+//                                        endY = size.height
+//                                    ),
+//                                    alpha = 0.8f
+//                                )
+//                            },
+//                        model = listOfRecipes.value[index].image,
+//                        contentDescription = null,
+//
+//                        )
+                    Image(
+                        painterResource(R.drawable.strawberry),
+                        contentDescription = "",
+                        contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .fillMaxSize()
                             .drawWithContent {
@@ -84,11 +117,7 @@ fun MainScreen(
                                     ),
                                     alpha = 0.8f
                                 )
-                            },
-                        model = listOfRecipes.value[index].image,
-                        contentDescription = null,
-
-                        )
+                            })
                     Text(
                         text = listOfRecipes.value[index].name,
                         style = TextStyle(

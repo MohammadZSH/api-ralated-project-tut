@@ -1,6 +1,7 @@
 package com.test.tut_api_project.viewModel
 
 import android.app.Application
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.lifecycle.AndroidViewModel
 import com.test.tut_api_project.models.recipe
 import com.test.tut_api_project.models.recipesResponse
@@ -14,8 +15,13 @@ import retrofit2.Response
 class ApiProjectViewModel(app: Application) : AndroidViewModel(app) {
     private var _listOfRecipes= MutableStateFlow(listOf<recipe>())
     val listOfRecipes = _listOfRecipes.asStateFlow()
+    private val _isBackButtonClicked = MutableStateFlow(false)
+    val isBackButtonClicked = _isBackButtonClicked.asStateFlow()
+    fun isBackButtonClickedSetter(value: Boolean){
+        _isBackButtonClicked.value = value
+    }
+    val listStateOfMainScreen = LazyListState()
     init {
-
         retrofitClient.service.getAll()?.let {
             it.enqueue(
                 object : Callback<recipesResponse?>{
